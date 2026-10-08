@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DigiShield Portal</title>
+</head>
+<body>
+  <div id="user-email">admin@digishield.vn</div>
+  <a href="/watchlist" onclick="event.preventDefault(); loadWatchlist();">Quan ly danh sach</a>
+  <div id="menu-admin-settings">Cau hinh He thong</div>
+
+  <div id="app-content"></div>
+
+  <script>
+    if (window.location.search.indexOf('role=analyst') !== -1) {
+      document.getElementById('user-email').innerText = 'analyst@digishield.vn';
+      var settings = document.getElementById('menu-admin-settings');
+      if (settings) {
+        settings.parentNode.removeChild(settings);
+      }
+    }
+
+    function loadWatchlist() {
+      document.getElementById('app-content').innerHTML =
+        '<button id="btn-add-new" onclick="showForm()">Them moi</button>' +
+        '<div id="form-container"></div>' +
+        '<table id="table-watchlist"><tbody></tbody></table>';
+    }
+
+    function showForm() {
+      document.getElementById('form-container').innerHTML =
+        '<input id="account-number" placeholder="So tai khoan" />' +
+        '<input id="reason" placeholder="Ly do" />' +
+        '<select id="risk-level">' +
+          '<option value="LOW_RISK">LOW_RISK</option>' +
+          '<option value="HIGH_RISK">HIGH_RISK</option>' +
+        '</select>' +
+        '<button id="btn-submit-watchlist" onclick="addAccount()">Luu</button>';
+    }
+
+    function addAccount() {
+      var acc = document.getElementById('account-number').value;
+      var risk = document.getElementById('risk-level').value;
+      var tbody = document.querySelector('#table-watchlist tbody');
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + acc + '</td><td><span class="badge">' + risk + '</span></td>';
+      tbody.appendChild(tr);
+    }
+  </script>
+</body>
+</html>
